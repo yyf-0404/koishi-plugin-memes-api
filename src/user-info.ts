@@ -72,13 +72,13 @@ export async function apply(ctx: Context, config: Config) {
     try {
       return await func()
     } catch (e) {
-      ctx.logger.error(e)
       if (func !== fallback) {
         ctx.logger.warn(
           `Failed to get user info from platform specific method, falling back to universal`,
         )
         return ctx.$.getInfoFromID(session, userId, true)
       }
+      ctx.logger.error(e)
       throw new GetAvatarFailedError(session.platform, userId)
     }
   }
